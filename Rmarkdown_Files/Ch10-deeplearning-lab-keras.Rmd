@@ -1,16 +1,5 @@
 ---
-jupyter:
-  jupytext:
-    formats: ipynb,Rmd
-    text_representation:
-      extension: .Rmd
-      format_name: rmarkdown
-      format_version: '1.2'
-      jupytext_version: 1.11.2
-  kernelspec:
-    display_name: R
-    language: R
-    name: ir
+title: "Ch10-deeplearning-lab"
 ---
 
 
@@ -320,8 +309,8 @@ class labels, and then use it to evaluate our predictions.
 
 ```{r}
 accuracy <- function(pred, truth) {
-   mean(drop(pred) == drop(truth)) }
-modelnn %>% predict_classes(x_test) %>% accuracy(g_test)
+   mean(drop(as.numeric(pred)) == drop(truth)) }
+modelnn %>% predict(x_test) %>% k_argmax() %>% accuracy(g_test)
 ```
 
 The table also reports LDA (Chapter 4) and multiclass logistic
@@ -344,7 +333,7 @@ modellr %>% compile(loss = "categorical_crossentropy",
      optimizer = optimizer_rmsprop(), metrics = c("accuracy"))
 modellr %>% fit(x_train, y_train, epochs = 30,
       batch_size = 128, validation_split = 0.2)
-modellr %>% predict_classes(x_test) %>% accuracy(g_test)
+modellr %>% predict(x_test) %>% k_argmax() %>% accuracy(g_test)
 ```
 
 ### Convolutional Neural Networks
@@ -438,7 +427,7 @@ model %>% compile(loss = "categorical_crossentropy",
 #history <- model %>% fit(x_train, y_train, epochs = 30,
 history <- model %>% fit(x_train, y_train, epochs = 10,
     batch_size = 128, validation_split = 0.2)
-model %>% predict_classes(x_test) %>% accuracy(g_test)
+model %>% predict(x_test) %>% k_argmax() %>% accuracy(g_test)
 ```
 
 This model takes 10 minutes to run and achieves 46% accuracy on the test

@@ -1,6 +1,7 @@
-
-# Lab: Deep Learning
-
+### Lab: Deep Learning
+### Note: this lab is slightly different from that in the August 2021 printing of ISLRII
+### It is based on keras 2.6.0, while the original was based on keras 2.4.0
+### The predict_classes() has been deprecated
 
 ## A Single Layer Network on the Hitters Data
 
@@ -42,7 +43,8 @@ modnn %>% compile(loss = "mse",
    )
 ###
 history <- modnn %>% fit(
-    x[-testid, ], y[-testid], epochs = 1500, batch_size = 32,
+#    x[-testid, ], y[-testid], epochs = 1500, batch_size = 32,
+    x[-testid, ], y[-testid], epochs = 15, batch_size = 32,
     validation_data = list(x[testid, ], y[testid])
   )
 ###
@@ -93,8 +95,8 @@ system.time(
 plot(history, smooth = FALSE)
 ###
 accuracy <- function(pred, truth)
-  mean(drop(pred) == drop(truth))
-modelnn %>% predict_classes(x_test) %>% accuracy(g_test)
+  mean(drop(as.numeric(pred)) == drop(truth))
+modelnn %>% predict(x_test) %>% k_argmax() %>% accuracy(g_test)
 ###
 modellr <- keras_model_sequential() %>%
   layer_dense(input_shape = 784, units = 10,
@@ -105,7 +107,7 @@ modellr %>% compile(loss = "categorical_crossentropy",
      optimizer = optimizer_rmsprop(), metrics = c("accuracy"))
 modellr %>% fit(x_train, y_train, epochs = 30,
       batch_size = 128, validation_split = 0.2)
-modellr %>% predict_classes(x_test) %>% accuracy(g_test)
+modellr %>% predict(x_test) %>% k_argmax() %>% accuracy(g_test)
 
 ## Convolutional Neural Networks
 
@@ -153,7 +155,7 @@ model %>% compile(loss = "categorical_crossentropy",
     optimizer = optimizer_rmsprop(), metrics = c("accuracy"))
 history <- model %>% fit(x_train, y_train, epochs = 30,
     batch_size = 128, validation_split = 0.2)
-model %>% predict_classes(x_test) %>% accuracy(g_test)
+model %>% predict(x_test) %>% k_argmax() %>% accuracy(g_test)
 
 ## Using Pretrained CNN Models
 
@@ -300,7 +302,7 @@ arpred <- predict(arfit, arframe[!istrain, ])
 V0 <- var(arframe[!istrain, "log_volume"])
 1 - mean((arpred - arframe[!istrain, "log_volume"])^2) / V0
 ###
-arframed <-
+arframed <- data.frame(day = NYSE[-(1:5), "day_of_week"], arframe)
 arfitd <- lm(log_volume ~ ., data = arframed[istrain, ])
 arpredd <- predict(arfitd, arframed[!istrain, ])
 1 - mean((arpredd - arframe[!istrain, "log_volume"])^2) / V0
@@ -344,7 +346,7 @@ arnnd <- keras_model_sequential() %>%
 arnnd %>% compile(loss = "mse",
     optimizer = optimizer_rmsprop())
 history <- arnnd %>% fit(
-    x[istrain, ], arframe[istrain, "log_volume"], epochs = 100, 
+    x[istrain, ], arframe[istrain, "log_volume"], epochs = 100,
     batch_size = 32, validation_data =
       list(x[!istrain, ], arframe[!istrain, "log_volume"])
   )
