@@ -10,5 +10,5 @@ Materials:
    - [pdf](https://web.stanford.edu/~hastie/ISLRv2_website.pdf),
    - [package](https://cran.r-project.org/web/packages/ISLR2/index.html).  
 
-
+Note Ch10 update [here](https://twitter.com/daniela_witten/status/1491452247532015618).  
 
