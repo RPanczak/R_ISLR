@@ -10,6 +10,7 @@ library(ISLR2)
 
 ###
 head(Boston)
+str(Boston)
 ###
 lm.fit <- lm(medv ~ lstat)
 ###
@@ -92,6 +93,7 @@ summary(lm(medv ~ log(rm), data = Boston))
 
 ###
 head(Carseats)
+str(Carseats)
 ###
 lm.fit <- lm(Sales ~ . + Income:Advertising + Price:Age, 
     data = Carseats)
