@@ -1,6 +1,4 @@
-
 # Lab: Linear Regression
-
 
 ## Libraries
 
