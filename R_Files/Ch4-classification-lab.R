@@ -10,6 +10,7 @@ names(Smarket)
 dim(Smarket)
 summary(Smarket)
 pairs(Smarket)
+str(Smarket)
 ###
 cor(Smarket)
 cor(Smarket[, -9])
@@ -127,7 +128,9 @@ mean(nb.class == Direction.2005)
 ###
 nb.preds <- predict(nb.fit, Smarket.2005, type = "raw")
 nb.preds[1:5, ]
+
 ## $K$-Nearest Neighbors
+
 ###
 library(class)
 train.X <- cbind(Lag1, Lag2)[train, ]
