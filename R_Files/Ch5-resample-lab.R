@@ -52,7 +52,10 @@ for (i in 1:10) {
   cv.error[i] <- cv.glm(Auto, glm.fit)$delta[1]
 }
 cv.error
+plot(cv.error)
+
 ## $k$-Fold Cross-Validation
+
 ###
 set.seed(17)
 cv.error.10 <- rep(0, 10)
@@ -61,9 +64,9 @@ for (i in 1:10) {
   cv.error.10[i] <- cv.glm(Auto, glm.fit, K = 10)$delta[1]
 }
 cv.error.10
+plot(cv.error.10)
 
 ## The Bootstrap
-
 
 ### Estimating the Accuracy of a Statistic of Interest
 
