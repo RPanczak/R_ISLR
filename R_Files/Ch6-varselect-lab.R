@@ -1,4 +1,3 @@
-
 # Lab: Linear Models and Regularization Methods
 
 
@@ -9,14 +8,13 @@
 
 ###
 library(ISLR2)
-View(Hitters)
-names(Hitters)
+str(Hitters)
 dim(Hitters)
-sum(is.na(Hitters$Salary))
+table(is.na(Hitters$Salary))
 ###
 Hitters <- na.omit(Hitters)
 dim(Hitters)
-sum(is.na(Hitters))
+table(is.na(Hitters))
 ###
 library(leaps)
 regfit.full <- regsubsets(Salary ~ ., Hitters)
@@ -58,6 +56,7 @@ plot(regfit.full, scale = "bic")
 ###
 coef(regfit.full, 6)
 
+
 ### Forward and Backward Stepwise Selection
 
 ###
@@ -71,6 +70,7 @@ summary(regfit.bwd)
 coef(regfit.full, 7)
 coef(regfit.fwd, 7)
 coef(regfit.bwd, 7)
+
 
 ### Choosing Among Models Using the Validation-Set Approach and Cross-Validation
 
@@ -94,7 +94,7 @@ for (i in 1:19) {
 ###
 val.errors
 which.min(val.errors)
-coef(regfit.best, 7)
+coef(regfit.best, which.min(val.errors))
 ###
  predict.regsubsets <- function(object, newdata, id, ...) {
   form <- as.formula(object$call[[2]])
@@ -120,12 +120,15 @@ for (j in 1:k) {
        data = Hitters[folds != j, ],
        nvmax = 19)
   for (i in 1:19) {
+    # predict below is actually predict.regsubsets
     pred <- predict(best.fit, Hitters[folds == j, ], id = i)
     cv.errors[j, i] <-
          mean((Hitters$Salary[folds == j] - pred)^2)
    }
  }
 ###
+dim(cv.errors)
+# average over the columns of the matrix
 mean.cv.errors <- apply(cv.errors, 2, mean)
 mean.cv.errors
 par(mfrow = c(1, 1))
@@ -134,6 +137,7 @@ plot(mean.cv.errors, type = "b")
 reg.best <- regsubsets(Salary ~ ., data = Hitters,
     nvmax = 19)
 coef(reg.best, 10)
+
 
 ## Ridge Regression and the Lasso
 
@@ -195,6 +199,7 @@ mean((ridge.pred - y.test)^2)
 out <- glmnet(x, y, alpha = 0)
 predict(out, type = "coefficients", s = bestlam)[1:20, ]
 
+
 ### The Lasso
 
 ###
@@ -215,6 +220,7 @@ lasso.coef <- predict(out, type = "coefficients",
     s = bestlam)[1:20, ]
 lasso.coef
 lasso.coef[lasso.coef != 0]
+
 
 ## PCR and PLS Regression
 
@@ -241,6 +247,7 @@ mean((pcr.pred - y.test)^2)
 ###
 pcr.fit <- pcr(y ~ x, scale = TRUE, ncomp = 5)
 summary(pcr.fit)
+
 
 ### Partial Least Squares
 
