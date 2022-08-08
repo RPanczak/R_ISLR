@@ -1,4 +1,3 @@
-
 # Lab: Cross-Validation and the Bootstrap
 
 

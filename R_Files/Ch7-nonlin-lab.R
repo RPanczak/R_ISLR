@@ -1,9 +1,11 @@
-
 # Lab: Non-linear Modeling
 
 ###
 library(ISLR2)
 attach(Wage)
+
+str(Wage)
+dim(Wage)
 
 ## Polynomial Regression and Step Functions
 
@@ -78,10 +80,11 @@ table(cut(age, 4))
 fit <- lm(wage ~ cut(age, 4), data = Wage)
 coef(summary(fit))
 
-## Splines\label{Ch7:sec8.2}
+## Splines
 
 ###
 library(splines)
+
 fit <- lm(wage ~ bs(age, knots = c(25, 40, 60)), data = Wage)
 pred <- predict(fit, newdata = list(age = age.grid), se = T)
 plot(age, wage, col = "gray")
@@ -124,6 +127,7 @@ legend("topright", legend = c("Span = 0.2", "Span = 0.5"),
 ###
 gam1 <- lm(wage ~ ns(year, 4) + ns(age, 5) + education,
     data = Wage)
+summary(gam1)
 ###
 library(gam)
 gam.m3 <- gam(wage ~ s(year, 4) + s(age, 5) + education,
