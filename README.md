@@ -12,3 +12,4 @@ Materials:
 
 Note Ch10 update [here](https://twitter.com/daniela_witten/status/1491452247532015618).  
 
+Also - [course](https://www.edx.org/course/statistical-learning) & [videos](https://www.dataschool.io/15-hours-of-expert-machine-learning-videos/)
