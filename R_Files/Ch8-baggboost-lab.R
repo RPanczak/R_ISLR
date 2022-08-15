@@ -1,6 +1,4 @@
-
 # Lab: Decision Trees
-
 
 ## Fitting Classification Trees
 
@@ -12,6 +10,7 @@ attach(Carseats)
 High <- factor(ifelse(Sales <= 8, "No", "Yes"))
 ###
 Carseats <- data.frame(Carseats, High)
+table(Carseats$High)
 ###
 tree.carseats <- tree(High ~ . - Sales, Carseats)
 ###
